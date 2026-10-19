@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thiệp 20 Tháng 10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Dancing+Script:wght@500;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: velvet ground, one paper card as the hero beside a compact composer panel; stacks on phones. */
+:root {
+  color-scheme: dark;
+  --velvet: #2a0a17;
+  --velvet-2: #3d1124;
+  --panel: #4a1830;
+  --line: #6e2d4a;
+  --text: #f6e7ec;
+  --muted: #d3aebd;
+  --paper: #fff8f6;
+  --ink: #4b1428;
+  --ink-soft: #8a4a62;
+  --rose: #e2577f;
+  --rose-deep: #b8325b;
+  --gold: #d9a85b;
+  --display: "Cormorant Garamond", "Times New Roman", serif;
+  --script: "Dancing Script", "Brush Script MT", cursive;
+  --body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: radial-gradient(120% 80% at 20% 0%, var(--velvet-2), var(--velvet) 60%) fixed, var(--velvet);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+#petals, #hearts, #tunnel, #glowbg { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+/* Nền khi mở thư: đỏ ấm và chữ chúc bay */
+#glowbg {
+  background: radial-gradient(90% 70% at 50% 45%, #8e1834, #5a0c22 55%, #2a0612);
+  opacity: 0; transition: opacity 1.6s;
+}
+#tunnel { opacity: 0; transition: opacity 1.6s; }
+body.letter-open #glowbg, body.letter-open #tunnel { opacity: 1; }
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto;
+  padding-block: 40px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 28px;
+}
+header { display: grid; gap: 6px; }
+.eyebrow { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+h1 {
+  margin: 0; font-family: var(--display); font-weight: 600;
+  font-size: clamp(34px, 6vw, 56px); line-height: 1.05; text-wrap: balance;
+}
+h1 em { font-style: italic; color: var(--rose); font-weight: 500; }
+
+.stage { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+@media (max-width: 820px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+
+/* The card */
+.card {
+  position: relative; max-width: 100%;
+  background: var(--paper); color: var(--ink);
+  border-radius: 6px;
+  padding: clamp(28px, 5vw, 48px) clamp(22px, 5vw, 48px) clamp(26px, 4vw, 40px);
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,.55), 0 0 0 1px rgba(217,168,91,.35) inset;
+  overflow: hidden;
+}
+body.ready .card { animation: rise .9s cubic-bezier(.2,.7,.2,1) .25s both; }
+.card::before {
+  content: ""; position: absolute; inset: 12px;
+  border: 1px solid var(--gold); border-radius: 3px; opacity: .55; pointer-events: none;
+}
+@keyframes rise { from { transform: translateY(14px) rotate(-.6deg); } to { transform: none; } }
+.bloom { position: absolute; width: 190px; height: 190px; right: -46px; top: -46px; opacity: .95; }
+.bloom.low { right: auto; left: -60px; top: auto; bottom: -60px; width: 160px; height: 160px; transform: rotate(160deg); opacity: .5; }
+.date-mark { display: flex; align-items: baseline; gap: 10px; position: relative; }
+.date-mark .big { font-family: var(--display); font-size: clamp(56px, 10vw, 84px); font-weight: 600; line-height: .9; color: var(--rose-deep); font-variant-numeric: lining-nums; }
+.date-mark .sub { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; line-height: 1.4; }
+.to { position: relative; margin: 26px 0 6px; font-family: var(--script); font-size: clamp(30px, 5vw, 40px); color: var(--rose-deep); line-height: 1.15; overflow-wrap: anywhere; }
+.wish {
+  position: relative; margin: 0; font-family: var(--display); font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.5; color: var(--ink); max-width: 34ch; min-height: 7.5em; transition: opacity .35s;
+}
+.wish.fade { opacity: 0; }
+.sign { position: relative; margin-top: 22px; display: flex; justify-content: flex-end; }
+.sign span { font-family: var(--script); font-size: 26px; color: var(--ink); overflow-wrap: anywhere; text-align: right; }
+.sign span::before { content: "— "; color: var(--ink-soft); }
+.footnote { position: relative; margin-top: 26px; padding-top: 14px; border-top: 1px dashed rgba(138,74,98,.35); font-size: 12px; color: var(--ink-soft); }
+
+/* Composer */
+.panel {
+  position: relative; overflow: hidden;
+  background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,190,210,.28); border-radius: 18px;
+  padding: 26px 24px 22px; display: grid; gap: 20px;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px -20px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.panel::before {
+  content: ""; position: absolute; width: 240px; height: 240px; right: -90px; top: -100px;
+  background: radial-gradient(circle, rgba(226,87,127,.45), transparent 70%); pointer-events: none;
+}
+.panel > * { position: relative; }
+.panel-head { display: flex; align-items: center; gap: 12px; }
+.ph-heart { width: 30px; height: 28px; flex: none; fill: var(--rose); filter: drop-shadow(0 0 10px rgba(226,87,127,.8)); animation: beat 1.6s ease-in-out infinite; }
+.panel h2 { margin: 0; font-family: var(--script); font-size: 36px; font-weight: 700; line-height: 1.1; color: #ffe3ec; text-shadow: 0 0 18px rgba(226,87,127,.45); }
+.field { display: grid; gap: 8px; }
+label, .label { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+input[type="text"], textarea { width: 100%; font: inherit; color: var(--text); }
+textarea {
+  resize: vertical; min-height: 104px; line-height: 1.55; padding: 12px 14px;
+  background: rgba(20,4,11,.35); border: 1px solid rgba(255,190,210,.22); border-radius: 12px;
+}
+textarea:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+/* bó hoa */
+.bouquet { margin: 0; display: grid; justify-items: center; gap: 4px; }
+.bouquet svg { width: min(310px, 92%); height: auto; overflow: visible; filter: drop-shadow(0 14px 20px rgba(0,0,0,.35)); }
+.bouquet .sway { transform-origin: 150px 300px; animation: sway 4.5s ease-in-out infinite; }
+@keyframes sway { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+.bouquet figcaption { font-family: var(--script); font-size: 22px; color: #ffe3ec; text-shadow: 0 0 14px rgba(226,87,127,.5); }
+/* thẻ chọn lời chúc */
+.wish-picks { display: grid; gap: 10px; }
+.pick {
+  display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; text-align: left;
+  font: inherit; font-size: 14px; line-height: 1.5; color: var(--muted); cursor: pointer;
+  padding: 12px 14px; border-radius: 12px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,190,210,.18);
+  transition: border-color .2s, background .2s, box-shadow .2s, color .2s;
+}
+.pick:hover { border-color: rgba(255,190,210,.45); }
+.pick[aria-checked="true"] { color: var(--text); background: rgba(226,87,127,.16); border-color: var(--rose); box-shadow: 0 0 0 3px rgba(226,87,127,.18); }
+.pick-num { font-family: var(--display); font-size: 22px; font-weight: 600; line-height: 1.05; color: var(--gold); }
+.pick-text { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Màn mở đầu: nút trái tim → loading → phong bì */
+.wrap { transition: opacity 1s .2s; }
+body.intro-on { overflow: hidden; }
+body.intro-on .wrap { opacity: 0; visibility: hidden; }
+.intro {
+  position: fixed; inset: 0; z-index: 10;
+  background: radial-gradient(55% 45% at 50% 50%, rgba(20,4,11,.55), rgba(20,4,11,0) 70%);
+  transition: opacity .9s;
+}
+.intro.leaving { opacity: 0; pointer-events: none; }
+.step {
+  position: absolute; inset: 0; display: grid; place-items: center; padding: 24px 16px;
+  opacity: 0; visibility: hidden; transform: scale(.96);
+  transition: opacity .6s, transform .6s, visibility 0s .6s;
+}
+.intro[data-step="start"] .s-start,
+.intro[data-step="loading"] .s-loading,
+.intro[data-step="envelope"] .s-envelope {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity .6s .15s, transform .6s .15s, visibility 0s;
+}
+.start-inner { display: grid; justify-items: center; gap: 12px; text-align: center; }
+.intro-title {
+  margin: 0; font-family: var(--script); font-weight: 700;
+  font-size: clamp(38px, 8vw, 60px); line-height: 1.15; color: #ffe3ec;
+  text-shadow: 0 0 28px rgba(226,87,127,.65);
+}
+.heart-btn {
+  position: relative; margin-top: 22px; width: 96px; height: 96px; border-radius: 50%;
+  border: 0; cursor: pointer; display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 38%, #ff9dbb, var(--rose-deep) 75%);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset, 0 12px 44px rgba(226,87,127,.6);
+  animation: beat 1.1s ease-in-out infinite;
+}
+.heart-btn svg { position: relative; width: 42px; height: 38px; fill: #fff; }
+.heart-btn .ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid rgba(255,170,195,.75); animation: ring 2.2s ease-out infinite;
+}
+.heart-btn .r2 { animation-delay: 1.1s; }
+.tap-hint { margin-top: 10px; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+@keyframes ring { from { transform: scale(1); opacity: .85; } to { transform: scale(2.2); opacity: 0; } }
+@keyframes beat {
+  0%, 100% { transform: scale(1); } 10% { transform: scale(1.1); } 22% { transform: scale(1); }
+  32% { transform: scale(1.06); } 44% { transform: scale(1); }
+}
+
+.loader {
+  width: min(420px, 100%); display: grid; gap: 16px; padding: 26px 24px 22px;
+  border-radius: 18px; background: rgba(42,10,23,.6); border: 1px solid rgba(226,87,127,.35);
+  backdrop-filter: blur(10px); box-shadow: 0 24px 60px rgba(0,0,0,.45);
+}
+.load-title { margin: 0; text-align: center; font-family: var(--display); font-size: 24px; font-weight: 600; }
+.bar { position: relative; height: 12px; border-radius: 999px; background: rgba(255,255,255,.08); box-shadow: inset 0 1px 3px rgba(0,0,0,.45); }
+.fill {
+  position: relative; height: 100%; width: 0; border-radius: inherit;
+  background: linear-gradient(90deg, var(--rose-deep), var(--rose), #f7a1b9);
+  box-shadow: 0 0 16px rgba(226,87,127,.75);
+}
+.fill::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(115deg, rgba(255,255,255,.28) 25%, transparent 25% 50%, rgba(255,255,255,.28) 50% 75%, transparent 75%);
+  background-size: 20px 20px; animation: stripes .7s linear infinite;
+}
+@keyframes stripes { to { background-position: 20px 0; } }
+.bar { margin-top: 92px; }
+/* em bé ôm hoa chạy như điên trên đầu thanh tiến độ */
+.knob { position: absolute; right: -40px; bottom: 7px; width: 86px; height: 88px; z-index: 1; pointer-events: none; }
+.knob svg { width: 86px; height: 88px; overflow: visible; filter: drop-shadow(0 0 8px rgba(255,122,162,.4)); }
+.knob .runner { transform-box: view-box; transform-origin: 40px 82px; animation: run .22s ease-in-out infinite; }
+.knob .leg, .knob .arm { transform-box: fill-box; transform-origin: 50% 0; animation: step .22s ease-in-out infinite alternate; }
+.knob .leg-b, .knob .arm { animation-direction: alternate-reverse; }
+.knob .speed { animation: speed .22s linear infinite; }
+.knob .sweat { transform-box: fill-box; animation: sweat .44s ease-out infinite; }
+.knob .tears { animation: tears .3s linear infinite; }
+.knob .snot { transform-box: fill-box; transform-origin: 0 50%; animation: snot .9s ease-in-out infinite; }
+.knob .ribbon { animation: ribbon .22s ease-in-out infinite alternate; }
+@keyframes run { 0%, 100% { transform: rotate(8deg) translateY(0); } 50% { transform: rotate(8deg) translateY(-4px); } }
+@keyframes step { from { transform: rotate(45deg); } to { transform: rotate(-45deg); } }
+@keyframes speed { from { transform: translateX(0); opacity: .9; } to { transform: translateX(-8px); opacity: .2; } }
+@keyframes sweat { from { transform: translate(0, 0); opacity: 1; } to { transform: translate(5px, -5px); opacity: 0; } }
+@keyframes tears { from { transform: translate(0, 0); opacity: 1; } to { transform: translate(-9px, 3px); opacity: 0; } }
+@keyframes snot { 0%, 100% { transform: scale(.6); } 50% { transform: scale(1.25); } }
+@keyframes ribbon { from { transform: translateY(0); } to { transform: translateY(2px); } }
+.load-meta { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--muted); }
+#loadPct { color: var(--gold); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.env-wrap { display: grid; justify-items: center; gap: 22px; padding-top: 110px; }
+.envelope { position: relative; width: min(360px, 84vw); aspect-ratio: 3 / 2; perspective: 1000px; }
+.intro[data-step="envelope"] .envelope { animation: envIn .9s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes envIn { from { transform: translateY(40px) scale(.9); opacity: 0; } to { transform: none; opacity: 1; } }
+.env-back { position: absolute; inset: 0; border-radius: 10px; background: #9f2a4c; box-shadow: 0 30px 60px -15px rgba(0,0,0,.6); }
+.letter {
+  position: absolute; left: 7%; right: 7%; top: 8%; height: 86%; z-index: 2;
+  display: grid; align-content: start; gap: 2px; padding: 14px 18px;
+  background: var(--paper); color: var(--ink); border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(217,168,91,.45) inset;
+  transition: transform 1.2s cubic-bezier(.2,.7,.2,1) .7s;
+}
+.l-date { font-family: var(--display); font-size: 34px; font-weight: 600; line-height: 1; color: var(--rose-deep); }
+.l-to { font-family: var(--script); font-size: 26px; color: var(--rose-deep); }
+.l-lines { display: block; height: 40px; background: repeating-linear-gradient(to bottom, transparent 0 11px, rgba(138,74,98,.25) 11px 12px); }
+.env-front {
+  position: absolute; inset: 0; z-index: 3; border-radius: 10px;
+  background: linear-gradient(160deg, #e2577f, #b8325b);
+  clip-path: polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%);
+}
+.flap {
+  position: absolute; left: 0; right: 0; top: 0; height: 56%; z-index: 4;
+  background: linear-gradient(180deg, #d45276, #a92c51);
+  clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top;
+  transition: transform .8s cubic-bezier(.5,0,.3,1), z-index 0s .4s;
+}
+.envelope.open .flap { transform: rotateX(180deg); z-index: 1; }
+.envelope.open .letter { transform: translateY(-58%); }
+.seal {
+  position: absolute; left: 50%; top: 56%; width: 46px; height: 46px; margin: -23px 0 0 -23px; z-index: 5;
+  display: grid; place-items: center; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #f0c27a, #b8862f); box-shadow: 0 4px 10px rgba(0,0,0,.35);
+  transition: opacity .3s, transform .3s;
+}
+.seal svg { width: 22px; height: 20px; fill: #7a1734; }
+.envelope.open .seal { opacity: 0; transform: scale(.6); }
+.env-caption { margin: 0; font-family: var(--script); font-size: 26px; color: #ffe3ec; text-shadow: 0 0 18px rgba(226,87,127,.6); }
+
+@media (prefers-reduced-motion: reduce) {
+  body.ready .card { animation: none; }
+  .wish { transition: none; }
+  .heart-btn, .heart-btn .ring, .fill::after, .knob .runner, .knob .speed, .knob .sweat, .knob .tears, .knob .snot, .knob .ribbon, .knob .leg, .knob .arm, .intro[data-step="envelope"] .envelope, .bouquet .sway, .ph-heart { animation: none; }
+  .heart-btn .ring { display: none; }
+}
+</style>
+</head>
+<body class="intro-on">
+<div id="glowbg" aria-hidden="true"></div>
+<canvas id="tunnel" aria-hidden="true"></canvas>
+<canvas id="hearts" aria-hidden="true"></canvas>
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<div class="intro" id="intro" data-step="start">
+  <section class="step s-start">
+    <div class="start-inner">
+      <span class="eyebrow">20 · 10</span>
+      <p class="intro-title">Có một lá thư<br>đang chờ em mở</p>
+      <button class="heart-btn" id="startBtn" type="button" aria-label="Mở thư">
+        <span class="ring"></span><span class="ring r2"></span>
+        <svg viewBox="0 0 32 30" aria-hidden="true"><path d="M16 28.5S1.5 19.6 1.5 9.6A7.6 7.6 0 0 1 16 5.4a7.6 7.6 0 0 1 14.5 4.2c0 10-14.5 18.9-14.5 18.9z"/></svg>
+      </button>
+      <span class="tap-hint">Chạm vào trái tim</span>
+    </div>
+  </section>
+
+  <section class="step s-loading">
+    <div class="loader">
+      <p class="load-title">Đang chuẩn bị một bất ngờ nhỏ</p>
+      <div class="bar" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="fill" id="fill">
+          <span class="knob">
+            <!-- em bé ôm bó hoa chạy như điên: khóc hết nước mắt, bong bóng mũi, mồ hôi -->
+            <svg viewBox="0 0 86 88" aria-hidden="true">
+              <defs>
+                <symbol id="sunflower" viewBox="-10 -10 20 20">
+                  <g fill="#ffc928">
+                    <ellipse cx="0" cy="-6" rx="2.3" ry="4"/><ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(36)"/>
+                    <ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(72)"/><ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(108)"/>
+                    <ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(144)"/><ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(180)"/>
+                    <ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(216)"/><ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(252)"/>
+                    <ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(288)"/><ellipse cx="0" cy="-6" rx="2.3" ry="4" transform="rotate(324)"/>
+                  </g>
+                  <circle r="4" fill="#7a4a1c"/><circle r="2.2" fill="#5a3412"/>
+                </symbol>
+                <pattern id="stripes" width="4" height="4" patternUnits="userSpaceOnUse">
+                  <rect width="4" height="4" fill="#4f9be0"/><rect width="4" height="1.6" fill="#1f5fa8"/>
+                </pattern>
+              </defs>
+              <!-- vệt gió -->
+              <g class="speed" stroke="rgba(255,225,235,.8)" stroke-width="2" stroke-linecap="round">
+                <line x1="2" y1="44" x2="14" y2="44"/><line x1="0" y1="54" x2="12" y2="54"/><line x1="4" y1="64" x2="15" y2="64"/>
+              </g>
+              <g class="runner">
+                <!-- chân sau -->
+                <g class="leg leg-b"><rect x="33" y="58" width="7" height="19" rx="3" fill="#3f5f92"/><ellipse cx="38" cy="79" rx="6.5" ry="3.6" fill="#f0782a"/><rect x="31.5" y="80.5" width="13" height="1.6" rx=".8" fill="#fff"/></g>
+                <!-- tay sau -->
+                <g class="arm"><rect x="27" y="43" width="5.5" height="13" rx="2.7" fill="#f2bf97"/></g>
+                <!-- áo sọc + quần yếm jean -->
+                <rect x="26" y="40" width="23" height="20" rx="8" fill="url(#stripes)"/>
+                <rect x="29" y="47" width="17" height="13" rx="3" fill="#4a6fa5"/>
+                <path d="M30 47 L28.5 41.5 M45 47 L46.5 41.5" stroke="#4a6fa5" stroke-width="2.6" stroke-linecap="round"/>
+                <circle cx="31" cy="48.5" r="1.1" fill="#ffd34e"/><circle cx="44" cy="48.5" r="1.1" fill="#ffd34e"/>
+                <path d="M37.5 50.5 l1 2.2 2.4.2-1.8 1.6.6 2.3-2.2-1.2-2.2 1.2.6-2.3-1.8-1.6 2.4-.2z" fill="#e8f1ff"/>
+                <rect x="27" y="55" width="21" height="8" rx="4" fill="#4a6fa5"/>
+                <!-- chân trước -->
+                <g class="leg"><rect x="38" y="58" width="7" height="19" rx="3" fill="#4a6fa5"/><ellipse cx="43" cy="79" rx="6.5" ry="3.6" fill="#ff8a3a"/><rect x="36.5" y="80.5" width="13" height="1.6" rx=".8" fill="#fff"/></g>
+                <!-- đầu -->
+                <circle cx="25" cy="27" r="4" fill="#f2bf97"/>
+                <circle cx="40" cy="25" r="17" fill="#f6c8a0"/>
+                <!-- tóc bù xù -->
+                <path d="M23 24 C20 10 30 3 41 4 C52 3 60 10 58 22 L55.5 15.5 L53 21 L49.5 13 L46.5 19 L42.5 11.5 L38.5 18.5 L34.5 12 L31 19.5 L27 14 L25.5 22 Z" fill="#8a4b22"/>
+                <path d="M33 7 L28 -1 L38 4 Z M43 4 L45 -4 L49 6 Z M52 8 L61 2 L57 12 Z M26 12 L18 8 L25 17 Z" fill="#8a4b22"/>
+                <!-- mắt nhắm tịt, lông mày nhăn -->
+                <path d="M31.5 22.5 L37 25 L31.5 27.5 M51.5 21.5 L46 24 L51.5 26.5" fill="none" stroke="#3a1f14" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M30.5 18 L37 20.2 M53 17 L46.5 19.2" stroke="#6b3a1c" stroke-width="1.6" stroke-linecap="round"/>
+                <!-- miệng há to -->
+                <path d="M36 30.5 Q44 28.5 52 30.5 Q52.5 42 44 42 Q35.5 42 36 30.5 Z" fill="#7a1f2b"/>
+                <ellipse cx="44" cy="38.6" rx="4.6" ry="2.6" fill="#f06a7a"/>
+                <rect x="38.5" y="30.2" width="11" height="2.6" rx="1.2" fill="#fff"/>
+                <circle cx="30.5" cy="31.5" r="2.8" fill="#f59ab2" opacity=".6"/><circle cx="55.5" cy="29.5" r="2.6" fill="#f59ab2" opacity=".6"/>
+                <!-- nước mắt chảy ròng ròng -->
+                <path d="M31 26 C25 23 19 25 12 21" fill="none" stroke="#8fd3ff" stroke-width="3" stroke-linecap="round"/>
+                <path d="M51 26 Q54 32 51.5 37" fill="none" stroke="#8fd3ff" stroke-width="2.6" stroke-linecap="round"/>
+                <g class="tears" fill="#8fd3ff">
+                  <circle cx="9" cy="19" r="2"/><circle cx="5" cy="23" r="1.5"/><circle cx="12" cy="15" r="1.4"/>
+                </g>
+                <!-- bong bóng nước mũi -->
+                <circle class="snot" cx="55.5" cy="27" r="3.6" fill="rgba(175,228,255,.55)" stroke="#8fd3ff" stroke-width=".8"/>
+                <!-- giọt mồ hôi -->
+                <path class="sweat" d="M62 5 C59 10 59 13 62 13 C65 13 65 10 62 5 Z" fill="#9fd8ff" stroke="#5fb4ec" stroke-width=".6"/>
+                <!-- bó hoa to -->
+                <g stroke="#3f8a4a" stroke-width="1.6" stroke-linecap="round">
+                  <line x1="56" y1="52" x2="62" y2="30"/><line x1="56" y1="52" x2="70" y2="30"/><line x1="56" y1="52" x2="76" y2="36"/><line x1="56" y1="52" x2="58" y2="34"/>
+                </g>
+                <g fill="#5aa368">
+                  <ellipse cx="54" cy="30" rx="2.6" ry="6" transform="rotate(-35 54 30)"/>
+                  <ellipse cx="81" cy="38" rx="2.6" ry="6" transform="rotate(60 81 38)"/>
+                  <ellipse cx="70" cy="10" rx="2.4" ry="5.5" transform="rotate(20 70 10)"/>
+                  <ellipse cx="78" cy="22" rx="2.4" ry="5.5" transform="rotate(50 78 22)"/>
+                </g>
+                <use href="#sunflower" x="56" y="16" width="20" height="20"/>
+                <use href="#sunflower" x="68" y="26" width="16" height="16"/>
+                <use href="#rose" x="65" y="9" width="13" height="13" style="color:#d6334f"/>
+                <use href="#rose" x="52" y="28" width="12" height="12" style="color:#e2577f"/>
+                <use href="#rose" x="74" y="15" width="10" height="10" style="color:#f3a7bd"/>
+                <use href="#blossom" x="58" y="10" width="9" height="9" style="color:#8ec5ff"/>
+                <use href="#blossom" x="77" y="33" width="8" height="8" style="color:#8ec5ff"/>
+                <!-- nơ và ruy băng bay -->
+                <path class="ribbon" d="M57 50 C52 56 50 60 44 63 M57 50 C55 58 56 63 52 68" fill="none" stroke="#ff8fb0" stroke-width="2" stroke-linecap="round"/>
+                <path d="M57 50 C52 45 50 49 53 52 Z M57 50 C61 45 64 49 61 52 Z" fill="#ff6f9a"/>
+                <!-- tay trước nắm bó hoa -->
+                <rect x="43" y="44" width="14" height="5.5" rx="2.7" fill="#f6c8a0" transform="rotate(-8 43 46)"/>
+                <circle cx="57" cy="47.5" r="3.4" fill="#f6c8a0"/>
+              </g>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div class="load-meta"><span id="loadMsg">Đang gom những điều dễ thương…</span><span id="loadPct">0%</span></div>
+    </div>
+  </section>
+
+  <section class="step s-envelope">
+    <div class="env-wrap">
+      <div class="envelope" id="envelope">
+        <div class="env-back"></div>
+        <div class="letter"><span class="l-date">20.10</span><span class="l-to">Gửi em</span><span class="l-lines"></span></div>
+        <div class="env-front"></div>
+        <div class="flap"></div>
+        <div class="seal"><svg viewBox="0 0 32 30" aria-hidden="true"><path d="M16 28.5S1.5 19.6 1.5 9.6A7.6 7.6 0 0 1 16 5.4a7.6 7.6 0 0 1 14.5 4.2c0 10-14.5 18.9-14.5 18.9z"/></svg></div>
+      </div>
+      <p class="env-caption">Thư của em đây…</p>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Ngày Phụ nữ Việt Nam</span>
+    <h1>Một tấm thiệp nhỏ <em>gửi em</em></h1>
+  </header>
+
+  <div class="stage">
+    <article class="card" id="card" aria-live="polite">
+      <svg class="bloom" id="bloom1" viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+      <svg class="bloom low" id="bloom2" viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+      <div class="date-mark">
+        <span class="big">20.10</span>
+        <span class="sub">Ngày Phụ nữ<br>Việt Nam</span>
+      </div>
+      <div class="to" id="cardTo">Gửi em yêu,</div>
+      <p class="wish" id="cardWish"></p>
+      <div class="sign"><span id="cardFrom">Anh</span></div>
+      <div class="footnote" id="footnote">Kỷ niệm khoảng thời gian đã dành cho nhau.</div>
+    </article>
+
+    <form class="panel" id="composer" autocomplete="off">
+      <div class="panel-head">
+        <svg class="ph-heart" viewBox="0 0 32 30" aria-hidden="true"><path d="M16 28.5S1.5 19.6 1.5 9.6A7.6 7.6 0 0 1 16 5.4a7.6 7.6 0 0 1 14.5 4.2c0 10-14.5 18.9-14.5 18.9z"/></svg>
+        <h2>Lời nhắn gửi em</h2>
+      </div>
+
+      <div class="field">
+        <span class="label" id="wishLabel">Chọn lời chúc</span>
+        <div class="wish-picks" id="picks" role="radiogroup" aria-labelledby="wishLabel"></div>
+      </div>
+
+      <figure class="bouquet">
+        <svg viewBox="0 0 300 300" role="img" aria-label="Bó hồng đỏ gói giấy đen, thắt nơ đỏ tặng em">
+          <defs>
+            <!-- mẫu hoa dùng chung cho em bé ở thanh loading -->
+            <radialGradient id="roseLight" cx="38%" cy="32%" r="70%">
+              <stop offset="0" stop-color="#fff" stop-opacity=".45"/>
+              <stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+              <stop offset="1" stop-color="#000" stop-opacity=".22"/>
+            </radialGradient>
+            <symbol id="rose" viewBox="-30 -30 60 60">
+              <circle r="27" fill="currentColor"/>
+              <path d="M-15 7C-19-10 4-21 15-8 23 2 11 17-2 13-13 9-9-7 2-7 10-7 11 4 2 5" fill="none" stroke="rgba(90,10,35,.4)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M-24 4C-20 18-6 25 8 23" fill="none" stroke="rgba(90,10,35,.25)" stroke-width="2.5" stroke-linecap="round"/>
+              <circle r="27" fill="url(#roseLight)"/>
+            </symbol>
+            <symbol id="blossom" viewBox="-12 -12 24 24">
+              <g fill="currentColor">
+                <circle cx="0" cy="-6" r="5"/><circle cx="5.7" cy="-1.9" r="5"/><circle cx="3.5" cy="4.9" r="5"/>
+                <circle cx="-3.5" cy="4.9" r="5"/><circle cx="-5.7" cy="-1.9" r="5"/>
+              </g>
+              <circle r="3" fill="#f0c27a"/>
+            </symbol>
+            <radialGradient id="rrLight" cx="35%" cy="30%" r="75%">
+              <stop offset="0" stop-color="#fff" stop-opacity=".32"/>
+              <stop offset=".5" stop-color="#fff" stop-opacity="0"/>
+              <stop offset="1" stop-color="#2a0008" stop-opacity=".45"/>
+            </radialGradient>
+            <symbol id="redrose" viewBox="-16 -16 32 32">
+              <circle r="15" fill="currentColor"/>
+              <path d="M-15 2C-12 12 0 16 12 10M-12-8C-5-15 8-14 13-5" fill="none" stroke="rgba(40,0,8,.38)" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M-7 3C-9-5 1-10 6-4 10 1 4 8-2 6-7 4-5-3 0-3 4-3 4 2 0 2" fill="none" stroke="rgba(60,0,10,.6)" stroke-width="1.7" stroke-linecap="round"/>
+              <circle r="15" fill="url(#rrLight)"/>
+            </symbol>
+            <linearGradient id="satin" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ff4a4f"/>
+              <stop offset=".5" stop-color="#e01b2b"/>
+              <stop offset="1" stop-color="#9c0b18"/>
+            </linearGradient>
+            <linearGradient id="blackWrap" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#3a2f34"/>
+              <stop offset=".45" stop-color="#1a1416"/>
+              <stop offset="1" stop-color="#0d0a0b"/>
+            </linearGradient>
+          </defs>
+          <g class="sway">
+            <!-- giấy đen xoè phía sau -->
+            <path d="M63.4 129.9 L5.4 113.1 L66.7 103.7 Z" fill="#2b2226"/><path d="M5.4 113.1 L20.3 117" stroke="#4a3c42" stroke-width="1.2"/><path d="M62.8 117.8 L17.5 91.2 L76.8 88.9 Z" fill="#1c1517"/><path d="M17.5 91.2 L32.3 97.1" stroke="#4a3c42" stroke-width="1.2"/><path d="M69 99.4 L36.8 67.9 L90.7 77.5 Z" fill="#2b2226"/><path d="M36.8 67.9 L50.5 77" stroke="#4a3c42" stroke-width="1.2"/><path d="M77.2 88.5 L54.1 48.9 L108.7 68.6 Z" fill="#1c1517"/><path d="M54.1 48.9 L67.2 60" stroke="#4a3c42" stroke-width="1.2"/><path d="M90.8 77.4 L83.3 36 L129 63.2 Z" fill="#2b2226"/><path d="M83.3 36 L94.2 49.1" stroke="#4a3c42" stroke-width="1.2"/><path d="M112.2 67.3 L117.9 24.6 L149.8 61.4 Z" fill="#1c1517"/><path d="M117.9 24.6 L125.3 39.7" stroke="#4a3c42" stroke-width="1.2"/><path d="M135.7 62.2 L155.8 19.3 L171 63.2 Z" fill="#2b2226"/><path d="M155.8 19.3 L159.3 35.7" stroke="#4a3c42" stroke-width="1.2"/><path d="M149.9 61.4 L184.2 28.3 L191.6 68.7 Z" fill="#1c1517"/><path d="M184.2 28.3 L185.3 44.5" stroke="#4a3c42" stroke-width="1.2"/><path d="M168.8 62.8 L211.3 37.7 L207.4 76.3 Z" fill="#2b2226"/><path d="M211.3 37.7 L209.2 53.6" stroke="#4a3c42" stroke-width="1.2"/><path d="M197.6 71.2 L244.4 55.2 L222.4 88 Z" fill="#1c1517"/><path d="M244.4 55.2 L237.6 69.7" stroke="#4a3c42" stroke-width="1.2"/><path d="M210.3 78.2 L272.6 67.9 L232.8 102.6 Z" fill="#2b2226"/><path d="M272.6 67.9 L262.8 82.1" stroke="#4a3c42" stroke-width="1.2"/><path d="M222.5 88.1 L275.7 91.6 L237.1 117.2 Z" fill="#1c1517"/><path d="M275.7 91.6 L264.5 103.6" stroke="#4a3c42" stroke-width="1.2"/><path d="M232.7 102.5 L297.9 113.4 L236.2 131.8 Z" fill="#2b2226"/><path d="M297.9 113.4 L283.4 123.7" stroke="#4a3c42" stroke-width="1.2"/><path d="M22 118 L4 170 L48 160 Z" fill="#231b1e"/><path d="M278 118 L296 170 L252 160 Z" fill="#231b1e"/>
+            <!-- vòm hồng đỏ -->
+            <use href="#redrose" x="151.9" y="40.7" width="28.4" height="28.4" style="color:#d9142f"/><use href="#redrose" x="132.7" y="42.2" width="25.5" height="25.5" style="color:#c8102e"/><use href="#redrose" x="170.1" y="40.9" width="28.4" height="28.4" style="color:#d9142f"/><use href="#redrose" x="111.1" y="42.4" width="26" height="26" style="color:#c4122b"/><use href="#redrose" x="180.7" y="54.9" width="28" height="28" style="color:#b00c25"/><use href="#redrose" x="76.2" y="55.5" width="27.7" height="27.7" style="color:#d9142f"/><use href="#redrose" x="98.3" y="56.7" width="27.3" height="27.3" style="color:#b00c25"/><use href="#redrose" x="116.7" y="57.1" width="26.7" height="26.7" style="color:#e0243c"/><use href="#redrose" x="141" y="56.5" width="28.1" height="28.1" style="color:#b00c25"/><use href="#redrose" x="162" y="58.1" width="26.5" height="26.5" style="color:#c8102e"/><use href="#redrose" x="201" y="59.2" width="26.7" height="26.7" style="color:#c8102e"/><use href="#redrose" x="67.3" y="72.1" width="27.5" height="27.5" style="color:#c4122b"/><use href="#redrose" x="87.4" y="70.9" width="30.1" height="30.1" style="color:#b00c25"/><use href="#redrose" x="105.9" y="71.3" width="29.6" height="29.6" style="color:#e0243c"/><use href="#redrose" x="171.5" y="72" width="30.1" height="30.1" style="color:#c4122b"/><use href="#redrose" x="192" y="73.3" width="27.6" height="27.6" style="color:#b00c25"/><use href="#redrose" x="150.8" y="72.4" width="30" height="30" style="color:#d9142f"/><use href="#redrose" x="213.7" y="73.6" width="28.1" height="28.1" style="color:#c4122b"/><use href="#redrose" x="44.3" y="75" width="28" height="28" style="color:#b00c25"/><use href="#redrose" x="126.3" y="74.9" width="29.4" height="29.4" style="color:#c8102e"/><use href="#redrose" x="220.8" y="87.4" width="30.1" height="30.1" style="color:#b00c25"/><use href="#redrose" x="53.6" y="87.4" width="30.7" height="30.7" style="color:#c4122b"/><use href="#redrose" x="157" y="88.2" width="30.5" height="30.5" style="color:#b00c25"/><use href="#redrose" x="179" y="88.7" width="30.8" height="30.8" style="color:#c4122b"/><use href="#redrose" x="35.2" y="89.9" width="28.6" height="28.6" style="color:#e0243c"/><use href="#redrose" x="140" y="89.2" width="31" height="31" style="color:#e0243c"/><use href="#redrose" x="76.4" y="90.2" width="29.2" height="29.2" style="color:#b00c25"/><use href="#redrose" x="96.1" y="90.6" width="29.2" height="29.2" style="color:#c4122b"/><use href="#redrose" x="118.7" y="91" width="29.2" height="29.2" style="color:#d9142f"/><use href="#redrose" x="204" y="91.4" width="28.7" height="28.7" style="color:#e0243c"/><use href="#redrose" x="43.2" y="103.6" width="32.1" height="32.1" style="color:#c4122b"/><use href="#redrose" x="210.7" y="104.2" width="32" height="32" style="color:#e0243c"/><use href="#redrose" x="83.6" y="105.2" width="30.7" height="30.7" style="color:#e0243c"/><use href="#redrose" x="126.9" y="106.3" width="29.5" height="29.5" style="color:#e0243c"/><use href="#redrose" x="233.8" y="106.7" width="29.8" height="29.8" style="color:#c8102e"/><use href="#redrose" x="168.5" y="106.7" width="30.5" height="30.5" style="color:#e0243c"/><use href="#redrose" x="108" y="107" width="30.3" height="30.3" style="color:#c4122b"/><use href="#redrose" x="148.4" y="107.7" width="29.7" height="29.7" style="color:#d9142f"/><use href="#redrose" x="62.7" y="106.9" width="31.6" height="31.6" style="color:#e0243c"/><use href="#redrose" x="190.3" y="107.8" width="30.5" height="30.5" style="color:#c8102e"/><use href="#redrose" x="157.2" y="120.7" width="32.4" height="32.4" style="color:#d9142f"/><use href="#redrose" x="53.8" y="120.6" width="32.6" height="32.6" style="color:#c8102e"/><use href="#redrose" x="34.2" y="121.8" width="32.1" height="32.1" style="color:#d9142f"/><use href="#redrose" x="220" y="121.5" width="33" height="33" style="color:#c8102e"/><use href="#redrose" x="117.9" y="122.9" width="31.2" height="31.2" style="color:#b00c25"/><use href="#redrose" x="178.3" y="123.3" width="30.7" height="30.7" style="color:#d9142f"/><use href="#redrose" x="75.1" y="122.8" width="31.8" height="31.8" style="color:#c4122b"/><use href="#redrose" x="138.6" y="123.4" width="30.9" height="30.9" style="color:#b00c25"/><use href="#redrose" x="97.5" y="123.5" width="31" height="31" style="color:#c4122b"/><use href="#redrose" x="199.7" y="123.4" width="32.6" height="32.6" style="color:#d9142f"/><use href="#redrose" x="106.9" y="136.2" width="34.1" height="34.1" style="color:#c8102e"/><use href="#redrose" x="168.3" y="137.4" width="32.3" height="32.3" style="color:#b00c25"/><use href="#redrose" x="43.6" y="136.5" width="34.4" height="34.4" style="color:#e0243c"/><use href="#redrose" x="189.3" y="136.9" width="33.9" height="33.9" style="color:#b00c25"/><use href="#redrose" x="84.1" y="138.2" width="31.7" height="31.7" style="color:#b00c25"/><use href="#redrose" x="148" y="138.4" width="31.9" height="31.9" style="color:#b00c25"/><use href="#redrose" x="124.4" y="139.2" width="32.4" height="32.4" style="color:#c4122b"/><use href="#redrose" x="61.8" y="139.3" width="34.5" height="34.5" style="color:#c4122b"/><use href="#redrose" x="213.5" y="140.8" width="32" height="32" style="color:#b00c25"/><use href="#redrose" x="73.7" y="153.3" width="33.7" height="33.7" style="color:#d9142f"/><use href="#redrose" x="93.8" y="154.7" width="32.6" height="32.6" style="color:#c8102e"/><use href="#redrose" x="114.5" y="154.1" width="33.9" height="33.9" style="color:#c4122b"/><use href="#redrose" x="197" y="154.1" width="34" height="34" style="color:#e0243c"/><use href="#redrose" x="158.7" y="155.5" width="32.7" height="32.7" style="color:#c8102e"/><use href="#redrose" x="178.1" y="154.7" width="35.1" height="35.1" style="color:#b00c25"/><use href="#redrose" x="136.2" y="154.8" width="35.5" height="35.5" style="color:#c8102e"/><use href="#redrose" x="146.8" y="169.6" width="34.2" height="34.2" style="color:#c4122b"/><use href="#redrose" x="104.4" y="170.8" width="34" height="34" style="color:#d9142f"/><use href="#redrose" x="124.3" y="170.3" width="36.4" height="36.4" style="color:#e0243c"/><use href="#redrose" x="165.9" y="171.3" width="34.9" height="34.9" style="color:#e0243c"/>
+            <!-- hoa baby -->
+            <g fill="#fffaf2"><circle cx="206.2" cy="135" r="2.2"/><circle cx="206.2" cy="135.2" r="1.4"/><circle cx="207.2" cy="133.1" r="1.6"/><circle cx="206.2" cy="128.5" r="1.7"/><circle cx="209" cy="134.2" r="2.2"/><circle cx="213.3" cy="134.8" r="1.3"/><circle cx="206.2" cy="132.1" r="1.7"/><circle cx="214.5" cy="130.8" r="1.7"/><circle cx="207" cy="133.2" r="1.9"/><circle cx="210.4" cy="135.7" r="1.6"/><circle cx="210" cy="137.2" r="1.9"/><circle cx="166.9" cy="71.2" r="1.6"/><circle cx="173.7" cy="72.6" r="1.5"/><circle cx="164.9" cy="75.5" r="2.2"/><circle cx="161.8" cy="78.5" r="1.2"/><circle cx="166" cy="77.2" r="1.6"/><circle cx="167.1" cy="76.2" r="1.9"/><circle cx="174.3" cy="78.6" r="1.6"/><circle cx="54.1" cy="120.2" r="1.7"/><circle cx="51.9" cy="125.7" r="1.6"/><circle cx="51.4" cy="120.5" r="1.4"/><circle cx="49.5" cy="128.1" r="1.4"/><circle cx="58.2" cy="120.4" r="2.1"/><circle cx="49.8" cy="128.9" r="1.3"/><circle cx="54.1" cy="121.9" r="1.8"/><circle cx="54.1" cy="121.3" r="1.5"/><circle cx="49.8" cy="124.4" r="1.3"/><circle cx="55" cy="128" r="1.8"/><circle cx="53.7" cy="123" r="2"/><circle cx="210.3" cy="74.9" r="1.9"/><circle cx="216.8" cy="72.6" r="1.4"/><circle cx="209.4" cy="70.5" r="1.5"/><circle cx="214.2" cy="78.6" r="2.1"/><circle cx="210.4" cy="78.5" r="2"/><circle cx="205.9" cy="73.9" r="1.2"/><circle cx="208.8" cy="72.3" r="1.8"/><circle cx="213.8" cy="72.7" r="2"/><circle cx="210.1" cy="69.6" r="2.1"/><circle cx="205.2" cy="76.4" r="1.5"/><circle cx="206.8" cy="71.6" r="1.3"/><circle cx="237.3" cy="153.7" r="1.2"/><circle cx="230.5" cy="150.4" r="1.2"/><circle cx="237.5" cy="149.3" r="1.2"/><circle cx="237.8" cy="147.6" r="2.2"/><circle cx="228.8" cy="155.9" r="1.9"/><circle cx="232.6" cy="149.9" r="1.2"/><circle cx="232.5" cy="149.4" r="1.7"/><circle cx="227.3" cy="152.6" r="2.2"/><circle cx="238.4" cy="152.3" r="1.5"/><circle cx="229.8" cy="153.5" r="2.2"/><circle cx="198.9" cy="74.5" r="1.1"/><circle cx="205.2" cy="76.7" r="2.1"/><circle cx="202.8" cy="69.7" r="1.9"/><circle cx="206.7" cy="77.1" r="2.3"/><circle cx="201.5" cy="72.8" r="2.2"/><circle cx="205.7" cy="71.4" r="2"/><circle cx="122.3" cy="98.7" r="2.1"/><circle cx="122" cy="106.4" r="2.2"/><circle cx="124" cy="100" r="1.8"/><circle cx="119.2" cy="102.9" r="1.3"/><circle cx="115.6" cy="99" r="1.3"/><circle cx="116.6" cy="106.8" r="2"/><circle cx="116.2" cy="103.1" r="1.7"/><circle cx="117" cy="100.2" r="1.6"/><circle cx="111.6" cy="105.8" r="2.1"/><circle cx="116" cy="106.9" r="1.4"/><circle cx="69.1" cy="106.5" r="1.5"/><circle cx="72.6" cy="100.3" r="1.1"/><circle cx="65.3" cy="107.1" r="1.9"/><circle cx="63.2" cy="97.9" r="1.6"/><circle cx="75.8" cy="97.6" r="1.8"/><circle cx="68.9" cy="100.4" r="1.5"/><circle cx="67.3" cy="98.4" r="1.1"/><circle cx="68.6" cy="97.6" r="2.2"/><circle cx="73.2" cy="102.9" r="1.2"/><circle cx="65.9" cy="106.7" r="1.7"/><circle cx="63.2" cy="98.6" r="1.5"/><circle cx="144.4" cy="190.4" r="2.3"/><circle cx="138.3" cy="184.7" r="1.4"/><circle cx="141.2" cy="186.6" r="1.2"/><circle cx="139.4" cy="181.8" r="2.1"/><circle cx="134.8" cy="188.8" r="1.7"/><circle cx="143.7" cy="188.2" r="1.7"/><circle cx="142.9" cy="186.1" r="1.6"/><circle cx="252.3" cy="96.9" r="1.5"/><circle cx="256.4" cy="100.8" r="1.1"/><circle cx="257.1" cy="99.1" r="1.3"/><circle cx="257.5" cy="99.5" r="1.5"/><circle cx="253.6" cy="94.9" r="2.2"/><circle cx="254.5" cy="98.2" r="1.1"/><circle cx="249.8" cy="97.9" r="2.1"/><circle cx="257.3" cy="97.2" r="1.6"/><circle cx="194.7" cy="102.8" r="2.3"/><circle cx="201.1" cy="98.6" r="1.3"/><circle cx="203" cy="103.6" r="1.1"/><circle cx="196" cy="96.2" r="1.2"/><circle cx="198.6" cy="103.8" r="1.9"/><circle cx="201" cy="105.7" r="2.3"/><circle cx="194" cy="100.1" r="1.4"/><circle cx="202.3" cy="98.5" r="1.1"/><circle cx="200.3" cy="102.8" r="1.7"/><circle cx="197.4" cy="103" r="1.9"/><circle cx="254.9" cy="111" r="1.4"/><circle cx="260.4" cy="108.8" r="1.4"/><circle cx="248.9" cy="116.3" r="1.9"/><circle cx="254.7" cy="115.2" r="1.2"/><circle cx="251.9" cy="111.3" r="1.8"/><circle cx="255.1" cy="114.7" r="1.9"/><circle cx="257.2" cy="116.6" r="1.3"/><circle cx="257.6" cy="111.5" r="1.5"/><circle cx="232.7" cy="162" r="1.7"/><circle cx="223.4" cy="164.4" r="1.2"/><circle cx="231" cy="157.1" r="1.1"/><circle cx="225.7" cy="162.5" r="1.3"/><circle cx="232.6" cy="161.6" r="1.9"/><circle cx="232.9" cy="156.5" r="1.9"/><circle cx="225.9" cy="158.6" r="1.8"/><circle cx="222.8" cy="155.6" r="1.4"/><circle cx="221.6" cy="155.5" r="1.5"/><circle cx="223" cy="155.8" r="1.5"/><circle cx="230.2" cy="162.8" r="1.3"/><circle cx="61.1" cy="149.8" r="1.2"/><circle cx="65.3" cy="158.1" r="2.2"/><circle cx="60.1" cy="154.4" r="1.8"/><circle cx="62.6" cy="150.1" r="2.2"/><circle cx="70.1" cy="153.4" r="1.3"/><circle cx="71.4" cy="154.2" r="2"/><circle cx="67.1" cy="158" r="1.9"/><circle cx="63.3" cy="152.1" r="1.1"/><circle cx="66.6" cy="151.1" r="2.2"/><circle cx="69.2" cy="152.2" r="1.8"/><circle cx="69.7" cy="150.5" r="2.1"/><circle cx="78.4" cy="126.8" r="1.4"/><circle cx="73.6" cy="127.1" r="1.6"/><circle cx="75" cy="134.3" r="1.6"/><circle cx="73.5" cy="125.1" r="1.8"/><circle cx="73.5" cy="131.3" r="2.2"/><circle cx="72.2" cy="130.1" r="1.2"/><circle cx="79.5" cy="125.2" r="1.8"/><circle cx="130.6" cy="150.1" r="2.2"/><circle cx="130.3" cy="144.4" r="2.2"/><circle cx="135.9" cy="142.1" r="1.8"/><circle cx="134.3" cy="151" r="2"/><circle cx="135.5" cy="148.6" r="1.6"/><circle cx="134.4" cy="151" r="1.5"/><circle cx="78.5" cy="151.6" r="2.2"/><circle cx="84.7" cy="153.3" r="1.9"/><circle cx="79.1" cy="147" r="1.8"/><circle cx="82.7" cy="145.1" r="1.2"/><circle cx="84.5" cy="147.6" r="1.7"/><circle cx="82.8" cy="146.3" r="1.2"/><circle cx="87.6" cy="147.2" r="1.3"/><circle cx="88.1" cy="145.2" r="1.8"/><circle cx="79.1" cy="150.8" r="1.8"/><circle cx="210.9" cy="56.7" r="1.9"/><circle cx="203.3" cy="59.5" r="1.3"/><circle cx="215.9" cy="60.3" r="1.4"/><circle cx="203.6" cy="58.7" r="1.2"/><circle cx="212.8" cy="63.6" r="1.1"/><circle cx="212" cy="63.3" r="1.8"/><circle cx="99.5" cy="64.3" r="1.6"/><circle cx="105.3" cy="63" r="1.6"/><circle cx="104.4" cy="62.6" r="1.7"/><circle cx="99.3" cy="62.1" r="1.4"/><circle cx="107.3" cy="64.9" r="1.4"/><circle cx="101.2" cy="58.6" r="1.8"/><circle cx="105.1" cy="59.3" r="1.6"/><circle cx="105.7" cy="61.5" r="1.6"/><circle cx="61.3" cy="118.2" r="2.1"/><circle cx="58.3" cy="121.4" r="1.7"/><circle cx="52.7" cy="125.8" r="1.3"/><circle cx="50.1" cy="118.9" r="1.2"/><circle cx="60.6" cy="123.3" r="1.5"/><circle cx="57" cy="121.6" r="1.3"/><circle cx="57.3" cy="122.1" r="1.8"/><circle cx="55.6" cy="122.6" r="1.7"/><circle cx="116.4" cy="143.3" r="1.5"/><circle cx="119.8" cy="140.9" r="1.6"/><circle cx="125.3" cy="135.4" r="1.9"/><circle cx="128.4" cy="139.7" r="1.8"/><circle cx="121.8" cy="134.7" r="1.8"/><circle cx="126.9" cy="135.7" r="1.3"/><circle cx="118.2" cy="140.9" r="1.6"/><circle cx="117" cy="135.1" r="1.5"/><circle cx="116.2" cy="141" r="2"/><circle cx="126" cy="137.1" r="1.9"/><circle cx="190.4" cy="78.8" r="2.2"/><circle cx="192.4" cy="77.9" r="1.8"/><circle cx="198" cy="73.7" r="1.2"/><circle cx="200.3" cy="81.4" r="1.5"/><circle cx="197.1" cy="80.7" r="2.1"/><circle cx="200.3" cy="81.4" r="1.6"/><circle cx="65.7" cy="79.9" r="2.3"/><circle cx="58.9" cy="74.1" r="1.8"/><circle cx="60.7" cy="82.4" r="1.4"/><circle cx="54.5" cy="75" r="2.2"/><circle cx="61.8" cy="74.7" r="1.7"/><circle cx="57.2" cy="79.6" r="1.7"/><circle cx="63.2" cy="77.7" r="1.6"/><circle cx="65.3" cy="80" r="1.7"/><circle cx="63.5" cy="78.6" r="1.1"/><circle cx="93.4" cy="111.1" r="1.2"/><circle cx="94.3" cy="120.7" r="1.4"/><circle cx="103.2" cy="112" r="1.8"/><circle cx="93.8" cy="111.3" r="1.5"/><circle cx="94.1" cy="112" r="1.2"/><circle cx="93.4" cy="113" r="2.2"/><circle cx="104.1" cy="118.8" r="1.9"/><circle cx="97.7" cy="111.7" r="1.5"/><circle cx="95" cy="117.7" r="1.9"/><circle cx="100.2" cy="118.3" r="1.2"/><circle cx="104.9" cy="115.4" r="1.5"/><circle cx="135.2" cy="149.8" r="1.4"/><circle cx="141.6" cy="153.8" r="1.4"/><circle cx="138.7" cy="148.4" r="1.8"/><circle cx="133.1" cy="151.9" r="1.7"/><circle cx="141.9" cy="150.8" r="2.3"/><circle cx="140.8" cy="150.3" r="1.1"/><circle cx="132.9" cy="148.4" r="2.1"/><circle cx="153.4" cy="168" r="1.2"/><circle cx="155.1" cy="166.3" r="1.7"/><circle cx="156.8" cy="166.5" r="1.2"/><circle cx="152.9" cy="170.7" r="1.7"/><circle cx="154.5" cy="175.9" r="1.6"/><circle cx="147.5" cy="176.2" r="1.7"/><circle cx="153.9" cy="168.6" r="2.1"/><circle cx="152.7" cy="166.9" r="1.4"/><circle cx="156.4" cy="169.6" r="2"/><circle cx="148.5" cy="167.7" r="2"/><circle cx="198" cy="174" r="1.5"/><circle cx="204.7" cy="176.1" r="1.8"/><circle cx="196.2" cy="180.6" r="1.9"/><circle cx="197.9" cy="177.8" r="2.2"/><circle cx="199.6" cy="179" r="1.9"/><circle cx="201.4" cy="178.1" r="1.5"/><circle cx="201.3" cy="175.8" r="1.7"/><circle cx="192.7" cy="177" r="1.8"/><circle cx="155.6" cy="179.3" r="1.3"/><circle cx="150.6" cy="186.2" r="1.2"/><circle cx="144.6" cy="184.3" r="1.8"/><circle cx="151.4" cy="184.8" r="1.6"/><circle cx="147.7" cy="186.1" r="1.8"/><circle cx="146.3" cy="180.2" r="1.5"/><circle cx="145.3" cy="177.2" r="1.7"/><circle cx="152.4" cy="178.5" r="2.2"/><circle cx="151.5" cy="183" r="1.5"/><circle cx="145.5" cy="181" r="1.7"/><circle cx="150.7" cy="182.9" r="1.6"/><circle cx="164.6" cy="131" r="2"/><circle cx="164.8" cy="131.5" r="2.2"/><circle cx="168" cy="132.8" r="1.4"/><circle cx="161.6" cy="130" r="1.5"/><circle cx="159.6" cy="128.8" r="1.6"/><circle cx="165.9" cy="128.6" r="1.4"/><circle cx="160.6" cy="130.7" r="1.2"/><circle cx="164.9" cy="127.5" r="1.5"/><circle cx="159.9" cy="125" r="1.5"/><circle cx="163" cy="119.1" r="1.8"/><circle cx="166.7" cy="122.4" r="2.1"/><circle cx="160" cy="118.6" r="2.2"/><circle cx="170.4" cy="123.4" r="2"/><circle cx="168.2" cy="120.2" r="1.1"/><circle cx="168.4" cy="122" r="1.8"/><circle cx="160.7" cy="118.2" r="1.4"/><circle cx="168.2" cy="122.7" r="1.5"/><circle cx="159.7" cy="120.5" r="1.1"/><circle cx="152.4" cy="140.8" r="2"/><circle cx="149.9" cy="140.5" r="1.3"/><circle cx="154.1" cy="143.9" r="2.2"/><circle cx="156.8" cy="137.4" r="1.6"/><circle cx="158.5" cy="137.7" r="1.6"/><circle cx="155.1" cy="138" r="1.7"/><circle cx="153.2" cy="138.8" r="1.9"/><circle cx="154.4" cy="146.1" r="1.2"/><circle cx="156.5" cy="141.6" r="1.7"/><circle cx="161.3" cy="67" r="1.5"/><circle cx="173.2" cy="60.8" r="1.3"/><circle cx="169.8" cy="65.9" r="1.4"/><circle cx="162.2" cy="61.5" r="1.4"/><circle cx="169.6" cy="62.5" r="1.4"/><circle cx="171.8" cy="66" r="2"/><circle cx="162.8" cy="60.9" r="1.1"/><circle cx="165.6" cy="62.2" r="2"/><circle cx="162.2" cy="66.8" r="1.9"/><circle cx="168.1" cy="68.2" r="1.9"/><circle cx="139.3" cy="139.6" r="1.8"/><circle cx="129.5" cy="147" r="2.1"/><circle cx="131.8" cy="141.7" r="2.2"/><circle cx="137.3" cy="144.1" r="2.1"/><circle cx="127.8" cy="140.3" r="1.3"/><circle cx="131.4" cy="139.7" r="2.1"/><circle cx="128.2" cy="147.8" r="1.7"/><circle cx="135.9" cy="144.6" r="1.9"/><circle cx="62.3" cy="142.8" r="1.2"/><circle cx="61.1" cy="148.4" r="1.4"/><circle cx="59.4" cy="150.7" r="1.3"/><circle cx="64.5" cy="143.9" r="1.7"/><circle cx="60.2" cy="143.4" r="2.1"/><circle cx="57.9" cy="152.5" r="2.2"/><circle cx="57.4" cy="148.9" r="1.2"/></g>
+            <!-- cổ giấy đen phía trước -->
+            <path d="M18 150 Q52 196 150 204 Q248 196 282 150 L262 186 Q206 226 150 230 Q94 226 38 186 Z" fill="url(#blackWrap)"/>
+            <path d="M30 164 Q90 210 150 214 Q210 210 270 164" fill="none" stroke="#54454c" stroke-width="1.4"/>
+            <path d="M112 222 L188 222 L172 262 L128 262 Z" fill="#141012"/>
+            <text x="150" y="208" text-anchor="middle" font-family="Dancing Script, cursive" font-size="15" fill="#d9a85b">For you</text>
+            <!-- nơ satin đỏ -->
+            <path d="M150 256 C120 226 84 236 92 258 C98 276 132 270 150 256 Z" fill="url(#satin)"/>
+            <path d="M150 256 C180 226 216 236 208 258 C202 276 168 270 150 256 Z" fill="url(#satin)"/>
+            <path d="M104 252 C116 246 132 250 146 256" fill="none" stroke="#ff8a8e" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+            <path d="M196 252 C184 246 168 250 154 256" fill="none" stroke="#ff8a8e" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+            <path d="M144 260 L118 296 L132 292 L138 300 L150 262 Z" fill="#c0121f"/>
+            <path d="M156 260 L182 296 L168 292 L162 300 L150 262 Z" fill="#a70e1a"/>
+            <path d="M118 262 C130 274 170 274 182 262 C178 282 122 282 118 262 Z" fill="#d3172a"/>
+            <ellipse cx="150" cy="258" rx="11" ry="9" fill="#e5222f"/>
+            <ellipse cx="147" cy="255" rx="4" ry="2.6" fill="#ff7b80" opacity=".7"/>
+          </g>
+        </svg>
+        <figcaption>Tặng em một bó hoa</figcaption>
+      </figure>
+
+      <div class="field">
+        <label for="wishText">Lời chúc</label>
+        <textarea id="wishText" maxlength="320"></textarea>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  const TO = "em yêu", FROM = "Anh";
+  const WISHES = [
+    "Chúc em yêu một ngày 20/10 ngọt ngào, bình yên và ngập tràn niềm vui. Cảm ơn em đã là một phần đẹp đẽ trong cuộc sống của anh.",
+    "Chúc nửa kia luôn xinh đẹp, tự tin và mãi hạnh phúc."
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const picksEl = $("picks"), wishText = $("wishText");
+  const cardTo = $("cardTo"), cardWish = $("cardWish"), cardFrom = $("cardFrom");
+
+  let idx = 0;
+
+  WISHES.forEach((w, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "pick";
+    b.setAttribute("role", "radio");
+    b.setAttribute("aria-checked", i === idx ? "true" : "false");
+    const num = document.createElement("span"); num.className = "pick-num"; num.textContent = String(i + 1).padStart(2, "0");
+    const txt = document.createElement("span"); txt.className = "pick-text"; txt.textContent = w;
+    b.append(num, txt);
+    b.addEventListener("click", () => selectWish(i));
+    picksEl.appendChild(b);
+  });
+
+  function selectWish(i) {
+    idx = i;
+    picksEl.querySelectorAll(".pick").forEach((c, j) => c.setAttribute("aria-checked", j === i ? "true" : "false"));
+    wishText.value = WISHES[i];
+    render(true);
+  }
+
+  function render(animate) {
+    cardTo.textContent = "Gửi " + TO + ",";
+    cardFrom.textContent = FROM;
+    const text = wishText.value.trim() || WISHES[idx];
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (animate && !reduce && cardWish.textContent) {
+      cardWish.classList.add("fade");
+      setTimeout(() => { cardWish.textContent = text; cardWish.classList.remove("fade"); }, 300);
+    } else {
+      cardWish.textContent = text;
+    }
+  }
+
+  wishText.addEventListener("input", () => render(false));
+
+  $("composer").addEventListener("submit", (e) => e.preventDefault());
+
+  wishText.value = WISHES[0];
+  render(false);
+
+  // Hoa trang trí: cánh hoa xếp vòng
+  function drawBloom(svg) {
+    const ns = "http://www.w3.org/2000/svg";
+    const layers = [
+      { n: 10, rx: 22, ry: 62, d: 30, fill: "#f3a7bd" },
+      { n: 8,  rx: 18, ry: 44, d: 20, fill: "#e2577f" },
+      { n: 6,  rx: 13, ry: 28, d: 12, fill: "#b8325b" }
+    ];
+    layers.forEach((L, li) => {
+      for (let i = 0; i < L.n; i++) {
+        const a = (360 / L.n) * i + li * 14;
+        const e = document.createElementNS(ns, "ellipse");
+        e.setAttribute("cx", 0); e.setAttribute("cy", -L.d);
+        e.setAttribute("rx", L.rx); e.setAttribute("ry", L.ry);
+        e.setAttribute("fill", L.fill); e.setAttribute("opacity", "0.85");
+        e.setAttribute("transform", "rotate(" + a + ")");
+        svg.appendChild(e);
+      }
+    });
+    const c = document.createElementNS(ns, "circle");
+    c.setAttribute("r", 9); c.setAttribute("fill", "#d9a85b");
+    svg.appendChild(c);
+  }
+  drawBloom($("bloom1")); drawBloom($("bloom2"));
+
+  // Cánh hoa rơi
+  const cv = $("petals"), ctx = cv.getContext("2d");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W, H, petals = [];
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function spawn(initial) {
+    return {
+      x: Math.random() * W, y: initial ? Math.random() * H : -20,
+      s: 6 + Math.random() * 8, vy: .4 + Math.random() * .8, vx: -.3 + Math.random() * .6,
+      r: Math.random() * Math.PI * 2, vr: -.02 + Math.random() * .04, sway: Math.random() * 100,
+      c: ["#e2577f", "#f3a7bd", "#b8325b", "#f6c9d6"][Math.floor(Math.random() * 4)]
+    };
+  }
+  function drawPetal(p) {
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+    ctx.fillStyle = p.c; ctx.globalAlpha = .7;
+    ctx.beginPath(); ctx.ellipse(0, 0, p.s * .55, p.s, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+  function tick(t) {
+    ctx.clearRect(0, 0, W, H);
+    petals.forEach((p, i) => {
+      p.y += p.vy; p.x += p.vx + Math.sin((t / 1000) + p.sway) * .3; p.r += p.vr;
+      if (p.y > H + 20) petals[i] = spawn(false);
+      drawPetal(p);
+    });
+    requestAnimationFrame(tick);
+  }
+  resize();
+  addEventListener("resize", resize);
+  const count = W < 500 ? 18 : 32;
+  for (let i = 0; i < count; i++) petals.push(spawn(true));
+  if (reduceMotion) { petals.forEach(drawPetal); } else { requestAnimationFrame(tick); }
+
+  // ===== Trái tim hạt sáng: đập theo nhịp, rồi bung ra rơi như lá rụng =====
+  const hv = $("hearts"), hx = hv.getContext("2d");
+  const HCOLORS = ["#fff1f5", "#ffd0dd", "#f7a1b9", "#ec6f93", "#d9416c"];
+  // Khi đã vào thiệp: tim nằm quanh mép màn hình.
+  // x, y: vị trí theo tỉ lệ màn hình; s: độ lớn theo cạnh ngắn
+  const EDGE_SPOTS = [
+    { x: .09, y: .22, s: .17 },
+    { x: .91, y: .15, s: .12 },
+    { x: .93, y: .64, s: .19 },
+    { x: .07, y: .74, s: .12 },
+    { x: .64, y: .93, s: .09 },
+    { x: .30, y: .95, s: .07 },
+    { x: .52, y: .05, s: .06 }
+  ];
+  const FORM_MS = 1600;
+  let HW = 0, HH = 0, hearts = [], falling = [], mode = "intro";
+
+  // Đường viền tim 2D, rồi "thổi phồng" thành khối dày như chiếc gối
+  const HEART_POLY = [];
+  for (let i = 0; i < 160; i++) {
+    const t = i / 160 * Math.PI * 2;
+    HEART_POLY.push([
+      16 * Math.pow(Math.sin(t), 3) / 17,
+      (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) / 17 + .15
+    ]);
+  }
+  function inHeart(x, y) {
+    let inside = false;
+    for (let i = 0, j = HEART_POLY.length - 1; i < HEART_POLY.length; j = i++) {
+      const [xi, yi] = HEART_POLY[i], [xj, yj] = HEART_POLY[j];
+      if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+    }
+    return inside;
+  }
+  // Bán kính từ tâm tới viền theo từng góc, tính sẵn một lần
+  const RAYS = 720, HEART_R = [];
+  for (let i = 0; i < RAYS; i++) {
+    const a = i / RAYS * Math.PI * 2, ca = Math.cos(a), sa = Math.sin(a);
+    let lo = 0, hi = 1.2;
+    for (let k = 0; k < 16; k++) { const m = (lo + hi) / 2; if (inHeart(ca * m, sa * m)) lo = m; else hi = m; }
+    HEART_R.push(lo);
+  }
+  const THICK = .38;
+
+  function heartPoints(w) {
+    const n = Math.round(Math.min(1600, Math.max(150, w * 5)));
+    const pts = [];
+    while (pts.length < n) {
+      const ai = Math.floor(Math.random() * RAYS), ang = ai / RAYS * Math.PI * 2;
+      const kind = pts.length / n;
+      let u, depth;
+      if (kind < .35) {
+        // 35%: viền tim cho rõ hình
+        u = 1 + (Math.random() - .5) * .05;
+        depth = (Math.random() - .5) * .06;
+      } else if (kind < .8) {
+        // 45%: mặt trước và mặt sau phồng lên
+        u = Math.sqrt(Math.random());
+        depth = (Math.random() < .5 ? -1 : 1) * THICK * Math.sqrt(Math.max(0, 1 - u * u));
+      } else {
+        // 20%: ruột đặc bên trong
+        u = Math.sqrt(Math.random());
+        depth = (Math.random() * 2 - 1) * THICK * Math.sqrt(Math.max(0, 1 - u * u));
+      }
+      const x = Math.cos(ang) * HEART_R[ai] * u, y = Math.sin(ang) * HEART_R[ai] * u;
+      // y dương là phía trên; màu nhạt dần lên trên như ánh sáng
+      const shade = Math.min(HCOLORS.length - 1, Math.max(0, Math.floor((1 - (y + .85) / 1.85) * HCOLORS.length + (Math.random() - .5) * 2)));
+      // điểm xuất phát khi tim tụ lại
+      const sa = Math.random() * Math.PI * 2, sr = 1.6 + Math.random() * 1.6;
+      pts.push({
+        x: x, y: -y, c: HCOLORS[shade],
+        r: .8 + Math.random() * (w > 120 ? 1.6 : 1.1),
+        a: .5 + Math.random() * .5,
+        tw: 1 + Math.random() * 3, ph: Math.random() * 6.28,
+        sp: Math.random(),
+        z: depth,
+        // thời điểm hạt rụng khỏi tim (0..1 trong giai đoạn rụng)
+        det: Math.random(),
+        sx: Math.cos(sa) * sr, sy: Math.sin(sa) * sr, dl: Math.random() * .35
+      });
+    }
+    return pts;
+  }
+
+  // Thời gian đập trọn vẹn, rồi thời gian rụng dần
+  function lifeFor() {
+    return mode === "intro" ? 2500 + Math.random() * 3000 : 8000 + Math.random() * 7000;
+  }
+  function shedFor() {
+    return mode === "intro" ? 5000 + Math.random() * 3000 : 7000 + Math.random() * 4000;
+  }
+  const AUTUMN = ["#f0b56b", "#e98a5c", "#f3c98b"];
+
+  // Chọn chỗ trống cho tim ở màn mở đầu, chừa khoảng giữa cho nút bấm
+  function introPos(w) {
+    let x = HW / 2, y = HH / 2;
+    for (let i = 0; i < 40; i++) {
+      x = w / 2 + Math.random() * Math.max(1, HW - w);
+      y = w / 2 + Math.random() * Math.max(1, HH - w);
+      if (Math.abs(x - HW / 2) < 150 + w * .4 && Math.abs(y - HH / 2) < 150 + w * .4) continue;
+      if (hearts.some(o => !o.retire && o.state !== "wait" && Math.hypot(o.cx - x, o.cy - y) < (o.half + w / 2) * .95)) continue;
+      break;
+    }
+    return [x, y];
+  }
+
+  function spawnHeart(h, now) {
+    let w, x, y;
+    if (h.spot) {
+      w = Math.max(40, h.spot.s * Math.min(HW, HH) * 1.45);
+      x = h.spot.x * HW; y = h.spot.y * HH;
+    } else {
+      // trộn ba cỡ: lớn, vừa, nhỏ cho màn mở đầu đỡ đều đều
+      const m = Math.min(HW, HH), r = Math.random();
+      const f = r < .25 ? .34 + Math.random() * .14 : r < .65 ? .2 + Math.random() * .1 : .1 + Math.random() * .07;
+      w = Math.max(60, m * f);
+      [x, y] = introPos(w);
+    }
+    h.cx = x; h.cy = y; h.half = w / 2; h.d = Math.random();
+    // mỗi tim xoay với tốc độ và góc bắt đầu riêng (một vòng khoảng 6–10 giây)
+    h.spin = .00025 + Math.random() * .00015; h.rot0 = Math.random() * Math.PI * 2;
+    h.lastBeat = undefined;
+    h.pts = heartPoints(w);
+    h.state = "form"; h.t0 = now;
+    return h;
+  }
+
+  // Hạt rời tim: trôi theo vận tốc ban đầu, chậm dần rồi rơi, đung đưa và lật như lá thu
+  function pushLeaf(x, y, p, vx, vy, life) {
+    falling.push({
+      x: x, y: y, vx: vx, vy: vy,
+      r: p.r * 1.5 + .6,
+      c: Math.random() < .3 ? AUTUMN[Math.floor(Math.random() * AUTUMN.length)] : p.c,
+      a: p.a, age: 0, life: life,
+      ph: Math.random() * 6.28, sw: .4 + Math.random() * .7,
+      rot: Math.random() * 6.28, vr: .04 + Math.random() * .08
+    });
+  }
+  // Rụng dần: hạt trôi nhẹ theo chiều xoay rồi rơi
+  function shedPoint(x, y, p, tangent) {
+    pushLeaf(x, y, p, tangent * .6 + (Math.random() - .5) * .5, -Math.random() * .4, 4000 + Math.random() * 3500);
+  }
+
+  // Nhịp tim: "thình" mạnh rồi "thịch" nhẹ, khoảng 72 nhịp/phút
+  function beatAt(t, d) {
+    const ph = ((t / 830) + d) % 1;
+    const g = (c, w) => Math.exp(-Math.pow((ph - c) / w, 2));
+    return g(.08, .05) + .55 * g(.26, .05);
+  }
+
+  function layout(now) {
+    hearts = [];
+    if (mode === "intro") {
+      const n = Math.max(6, Math.min(13, Math.round(HW * HH / 95000)));
+      for (let i = 0; i < n; i++) { const h = spawnHeart({}, now); h.t0 = now + i * 180; hearts.push(h); }
+    } else {
+      EDGE_SPOTS.forEach((s, i) => { const h = spawnHeart({ spot: s }, now); h.t0 = now + i * 250; hearts.push(h); });
+    }
+    if (reduceMotion) hearts.forEach(h => { h.state = "beat"; h.t0 = now; h.life = Infinity; });
+  }
+
+  function updateHearts(now, dt) {
+    hearts.forEach(h => {
+      const el = now - h.t0;
+      if (h.state === "form" && el > FORM_MS) { h.state = "beat"; h.t0 = now; h.life = h.retire ? Math.random() * 600 : lifeFor(); }
+      else if (h.state === "beat" && el > h.life) { h.state = "shed"; h.t0 = now; h.shed = h.retire ? 2500 : shedFor(); }
+      else if (h.state === "shed" && el > h.shed) { h.state = "wait"; h.t0 = now; h.wait = 300 + Math.random() * 1500; }
+      else if (h.state === "wait" && !h.retire && el > h.wait) spawnHeart(h, now);
+    });
+    hearts = hearts.filter(h => !(h.retire && h.state === "wait"));
+    const drag = Math.pow(.985, dt);
+    falling.forEach(f => {
+      f.age += dt * 16.67;
+      f.vx *= drag;
+      f.vy = f.vy * drag + .012 * dt;
+      f.x += (f.vx + Math.sin(f.age / 700 + f.ph) * f.sw) * dt;
+      f.y += f.vy * dt;
+      f.rot += f.vr * dt;
+    });
+    falling = falling.filter(f => f.age < f.life && f.y < HH + 10);
+  }
+
+  function drawHearts(now) {
+    hx.clearRect(0, 0, HW, HH);
+    hx.globalCompositeOperation = "lighter";
+    const dim = HW < 600 ? .7 : 1;
+    hearts.forEach(h => {
+      if (h.state === "wait") return;
+      const el = now - h.t0;
+      const b = beatAt(now, h.d);
+      const base = h.half * (1 + b * .18);
+      // đầu mỗi nhịp, một ít hạt toả ra xung quanh rồi rơi xuống
+      const beatIdx = Math.floor(now / 830 + h.d);
+      const emit = h.state !== "form" && h.lastBeat !== undefined && h.lastBeat !== beatIdx;
+      h.lastBeat = beatIdx;
+      const emitRate = emit ? Math.min(.08, (14 + h.half * .35) / h.pts.length) : 0;
+      // giai đoạn rụng: s chạy 0 → 1, hạt nào có det < s thì rơi khỏi tim
+      const s = h.state === "shed" ? el / h.shed * 1.06 : 0;
+      const vis = h.state === "form" ? Math.max(0, Math.min(1, el / FORM_MS)) : 1 - s * .85;
+      const th = now * h.spin + h.rot0, cs = Math.cos(th), sn = Math.sin(th);
+      if (vis > 0) {
+        const glow = hx.createRadialGradient(h.cx, h.cy, 0, h.cx, h.cy, h.half * 1.5);
+        glow.addColorStop(0, "rgba(226,87,127," + (((dim < 1 ? .12 : .2) + b * .16) * vis) + ")");
+        glow.addColorStop(1, "rgba(226,87,127,0)");
+        hx.fillStyle = glow;
+        hx.fillRect(h.cx - h.half * 1.6, h.cy - h.half * 1.6, h.half * 3.2, h.half * 3.2);
+      }
+      h.pts.forEach(p => {
+        if (p.gone) return;
+        let ux = p.x, uy = p.y, a = p.a;
+        if (h.state === "form") {
+          const q = Math.max(0, Math.min(1, (el / FORM_MS - p.dl) / .65));
+          const e = 1 - Math.pow(1 - q, 3);
+          ux = p.sx + (p.x - p.sx) * e; uy = p.sy + (p.y - p.sy) * e; a *= e;
+        }
+        // xoay quanh trục dọc: mặt trước to và sáng hơn mặt sau
+        const rx = ux * cs + p.z * sn, rz = p.z * cs - ux * sn;
+        const k = base * (1 + b * p.sp * .12) * (1 + rz * .25);
+        const x = h.cx + rx * k, y = h.cy + uy * k;
+        if (s > p.det) { p.gone = true; shedPoint(x, y, p, -sn * Math.sign(ux || 1)); return; }
+        if (emitRate && Math.random() < emitRate) {
+          const dx = x - h.cx, dy = y - h.cy, len = Math.hypot(dx, dy) || 1, v = 1 + Math.random() * 2.2;
+          pushLeaf(x, y, p, dx / len * v, dy / len * v - .3, 2500 + Math.random() * 2000);
+        }
+        hx.globalAlpha = a * (.65 + .35 * Math.sin(now / 1000 * p.tw + p.ph)) * (.6 + .4 * Math.max(-1, Math.min(1, rz * 3))) * dim;
+        hx.fillStyle = p.c;
+        hx.fillRect(x, y, p.r, p.r);
+      });
+    });
+    falling.forEach(f => {
+      // lá lật mặt: bề ngang co giãn theo góc xoay
+      const flip = .25 + .75 * Math.abs(Math.cos(f.rot));
+      const fade = Math.min(1, (f.life - f.age) / 1200);
+      hx.globalAlpha = f.a * fade * (.6 + .4 * flip) * dim;
+      hx.fillStyle = f.c;
+      hx.fillRect(f.x, f.y, f.r * flip, f.r);
+    });
+    hx.globalAlpha = 1;
+    hx.globalCompositeOperation = "source-over";
+  }
+
+  // Đổi từ màn mở đầu sang thiệp: tim cũ rụng hết, tim mới tụ lại quanh mép
+  function setMode(m) {
+    mode = m;
+    const now = performance.now();
+    if (reduceMotion) { layout(now); drawHearts(now); return; }
+    hearts.forEach(h => {
+      h.retire = true;
+      if (h.state === "beat") h.life = Math.min(h.life, now - h.t0 + Math.random() * 1200);
+    });
+    EDGE_SPOTS.forEach((s, i) => hearts.push({ spot: s, state: "wait", t0: now, wait: 900 + i * 300 }));
+  }
+
+  let lastW = 0, lastH = 0;
+  function resizeHearts() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    HW = hv.clientWidth; HH = hv.clientHeight;
+    hv.width = HW * dpr; hv.height = HH * dpr; hx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const now = performance.now();
+    // thanh địa chỉ trên điện thoại co giãn thì giữ nguyên tim, chỉ xếp lại khi đổi cỡ thật
+    if (HW !== lastW || Math.abs(HH - lastH) > 150) { lastW = HW; lastH = HH; falling = []; layout(now); }
+    if (reduceMotion) drawHearts(now);
+  }
+  let lastT = performance.now();
+  function heartLoop() {
+    const now = performance.now();
+    const dt = Math.min(3, (now - lastT) / 16.67); lastT = now;
+    updateHearts(now, dt); drawHearts(now);
+    requestAnimationFrame(heartLoop);
+  }
+  resizeHearts();
+  addEventListener("resize", resizeHearts);
+  if (!reduceMotion) requestAnimationFrame(heartLoop);
+
+  // ===== Nền khi mở thư: lời chúc bay từ xa tới, đốm sáng đỏ trôi phía sau =====
+  const tv = $("tunnel"), tx = tv.getContext("2d");
+  const PHRASES = [
+    "Luôn được yêu thương", "Hạnh phúc mỗi ngày", "Luôn xinh đẹp và rạng rỡ",
+    "Chúc mừng ngày 20/10", "Mãi cười thật tươi nhé", "Bình yên mỗi ngày",
+    "Em là điều đặc biệt", "Gửi em · 20.10", "Vui vẻ cả ngày nha",
+    "Luôn là chính mình", "Nửa kia của anh", "Một ngày thật dịu dàng"
+  ];
+  let TW = 0, TH = 0, words = [], bokeh = [], tunnelOn = false, tLast = 0;
+
+  function newWord(z) {
+    return {
+      t: PHRASES[Math.floor(Math.random() * PHRASES.length)],
+      x: (Math.random() * 2 - 1) * TW * .85, y: (Math.random() * 2 - 1) * TH * .85,
+      z: z, sp: .00011 + Math.random() * .00007,
+      wt: Math.random() < .3 ? 400 : 300
+    };
+  }
+  function newBokeh() {
+    const cols = ["255,80,90", "255,130,80", "235,40,80", "255,170,150"];
+    return {
+      x: Math.random() * TW, y: Math.random() * TH,
+      r: 18 + Math.random() * Math.min(90, TW * .12),
+      c: cols[Math.floor(Math.random() * cols.length)],
+      a: .12 + Math.random() * .25,
+      vx: (Math.random() - .5) * .15, vy: -.05 - Math.random() * .2, ph: Math.random() * 6.28
+    };
+  }
+  function resizeTunnel() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    TW = tv.clientWidth; TH = tv.clientHeight;
+    tv.width = TW * dpr; tv.height = TH * dpr; tx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (tunnelOn && reduceMotion) drawTunnel(performance.now());
+  }
+  function drawTunnel(now) {
+    tx.clearRect(0, 0, TW, TH);
+    bokeh.forEach(b => {
+      const a = b.a * (.7 + .3 * Math.sin(now / 1400 + b.ph));
+      const g = tx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      g.addColorStop(0, "rgba(" + b.c + "," + a + ")");
+      g.addColorStop(.55, "rgba(" + b.c + "," + a * .5 + ")");
+      g.addColorStop(1, "rgba(" + b.c + ",0)");
+      tx.fillStyle = g;
+      tx.fillRect(b.x - b.r, b.y - b.r, b.r * 2, b.r * 2);
+    });
+    // xa vẽ trước, gần vẽ sau
+    words.sort((p, q) => q.z - p.z);
+    const cx = TW / 2, cy = TH / 2, base = Math.max(14, Math.min(34, TW / 28));
+    tx.textAlign = "center"; tx.textBaseline = "middle";
+    tx.shadowColor = "rgba(255,130,165,.9)";
+    words.forEach(w => {
+      const persp = .35 / w.z;
+      const size = base * persp;
+      const fadeIn = Math.min(1, (1 - w.z) / .2), fadeOut = Math.min(1, Math.max(0, (w.z - .1) / .2));
+      const a = .85 * fadeIn * fadeOut;
+      if (a <= 0) return;
+      tx.font = w.wt + " " + size.toFixed(1) + "px \"Be Vietnam Pro\", system-ui, sans-serif";
+      tx.shadowBlur = Math.min(24, size * .45);
+      tx.fillStyle = "rgba(255,242,246," + a + ")";
+      tx.fillText(w.t, cx + w.x * persp, cy + w.y * persp);
+    });
+    tx.shadowBlur = 0;
+  }
+  function tunnelFrame() {
+    const now = performance.now();
+    const dt = Math.min(50, now - tLast); tLast = now;
+    words.forEach((w, i) => {
+      w.z -= w.sp * dt;
+      if (w.z < .1) words[i] = newWord(1);
+    });
+    bokeh.forEach((b, i) => {
+      b.x += b.vx * dt / 16.67; b.y += b.vy * dt / 16.67;
+      if (b.y < -b.r) { bokeh[i] = newBokeh(); bokeh[i].y = TH + bokeh[i].r; }
+    });
+    drawTunnel(now);
+    requestAnimationFrame(tunnelFrame);
+  }
+  function startTunnel() {
+    if (tunnelOn) return;
+    tunnelOn = true;
+    resizeTunnel();
+    const nw = TW < 600 ? 14 : 24, nb = TW < 600 ? 12 : 22;
+    for (let i = 0; i < nw; i++) words.push(newWord(.15 + Math.random() * .85));
+    for (let i = 0; i < nb; i++) bokeh.push(newBokeh());
+    document.body.classList.add("letter-open");
+    tLast = performance.now();
+    if (reduceMotion) drawTunnel(tLast); else requestAnimationFrame(tunnelFrame);
+  }
+  addEventListener("resize", resizeTunnel);
+
+  // ===== Màn mở đầu: bấm tim → loading → phong bì mở → vào thiệp =====
+  const intro = $("intro"), fill = $("fill"), bar = $("bar"), loadPct = $("loadPct"), loadMsg = $("loadMsg");
+  const LOAD_MSGS = ["Đang gom những điều dễ thương…", "Đang viết lời chúc thật cẩn thận…", "Chạy như điên mang hoa tới em!", "Thư đến rồi!"];
+  // tiến độ chạy nhanh chậm xen kẽ cho tự nhiên
+  const KEYS = [[0, 0], [.22, 28], [.38, 36], [.6, 68], [.75, 79], [.88, 92], [1, 100]];
+  function progressAt(r) {
+    for (let i = 1; i < KEYS.length; i++) {
+      if (r <= KEYS[i][0]) {
+        const [a0, v0] = KEYS[i - 1], [a1, v1] = KEYS[i];
+        const q = (r - a0) / (a1 - a0);
+        return v0 + (v1 - v0) * q * q * (3 - 2 * q);
+      }
+    }
+    return 100;
+  }
+
+  $("startBtn").addEventListener("click", () => {
+    intro.dataset.step = "loading";
+    const dur = reduceMotion ? 800 : 3600, t0 = performance.now();
+    function step(now) {
+      const r = Math.min(1, (now - t0) / dur);
+      const v = Math.round(progressAt(r));
+      fill.style.width = v + "%";
+      loadPct.textContent = v + "%";
+      bar.setAttribute("aria-valuenow", v);
+      loadMsg.textContent = LOAD_MSGS[v >= 100 ? 3 : Math.min(2, Math.floor(v / 34))];
+      if (r < 1) requestAnimationFrame(step); else setTimeout(showEnvelope, 500);
+    }
+    requestAnimationFrame(step);
+  }, { once: true });
+
+  function showEnvelope() {
+    intro.dataset.step = "envelope";
+    setTimeout(() => { $("envelope").classList.add("open"); startTunnel(); }, reduceMotion ? 100 : 1100);
+    setTimeout(enterCard, reduceMotion ? 500 : 3600);
+  }
+
+  function enterCard() {
+    intro.classList.add("leaving");
+    document.body.classList.add("ready");
+    document.body.classList.remove("intro-on");
+    setMode("main");
+    setTimeout(() => { intro.hidden = true; }, 900);
+  }
+})();
+</script>
+</body>
+</html>
