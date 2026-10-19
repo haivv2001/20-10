@@ -265,11 +265,34 @@ body.intro-on .wrap { opacity: 0; visibility: hidden; }
 .envelope.open .seal { opacity: 0; transform: scale(.6); }
 .env-caption { margin: 0; font-family: var(--script); font-size: 26px; color: #ffe3ec; text-shadow: 0 0 18px rgba(226,87,127,.6); }
 
+/* Nút nhạc nền góc dưới phải */
+.music-btn {
+  position: fixed; z-index: 30;
+  right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  width: 50px; height: 50px; border-radius: 50%; cursor: pointer;
+  display: grid; place-items: center; color: #ffe3ec;
+  background: rgba(42,10,23,.6); border: 1px solid rgba(255,190,210,.35);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35); transition: border-color .2s, box-shadow .2s;
+}
+.music-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.music-btn .ic-note { width: 22px; height: 22px; fill: currentColor; }
+.music-btn .eq { display: none; align-items: flex-end; gap: 3px; height: 18px; }
+.music-btn .eq i { width: 3px; height: 100%; border-radius: 2px; background: currentColor; animation: eq .9s ease-in-out infinite; }
+.music-btn .eq i:nth-child(2) { animation-delay: -.3s; }
+.music-btn .eq i:nth-child(3) { animation-delay: -.6s; }
+.music-btn.playing { border-color: var(--rose); box-shadow: 0 0 18px rgba(226,87,127,.55); }
+.music-btn.playing .ic-note { display: none; }
+.music-btn.playing .eq { display: flex; }
+@keyframes eq { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+.music-btn .eq i { transform-origin: bottom; }
+
 @media (prefers-reduced-motion: reduce) {
   body.ready .card { animation: none; }
   .wish { transition: none; }
   .heart-btn, .heart-btn .ring, .fill::after, .knob .runner, .knob .speed, .knob .sweat, .knob .tears, .knob .snot, .knob .ribbon, .knob .leg, .knob .arm, .intro[data-step="envelope"] .envelope, .bouquet .sway, .ph-heart { animation: none; }
   .heart-btn .ring { display: none; }
+  .music-btn .eq i { animation: none; }
 }
 </style>
 </head>
@@ -278,6 +301,13 @@ body.intro-on .wrap { opacity: 0; visibility: hidden; }
 <canvas id="tunnel" aria-hidden="true"></canvas>
 <canvas id="hearts" aria-hidden="true"></canvas>
 <canvas id="petals" aria-hidden="true"></canvas>
+
+<!-- Nhạc nền: file nhac.mp4 cùng thư mục với trang này (trình duyệt chỉ phát phần tiếng) -->
+<audio id="bgm" src="nhac.mp4" loop preload="auto"></audio>
+<button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Bật nhạc">
+  <svg class="ic-note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18.5A3.5 3.5 0 1 1 7 15.3V5.2l12-2.7v12.5a3.5 3.5 0 1 1-2-3.2V7.1L9 8.9z"/></svg>
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+</button>
 
 <div class="intro" id="intro" data-step="start">
   <section class="step s-start">
@@ -994,6 +1024,33 @@ body.intro-on .wrap { opacity: 0; visibility: hidden; }
   }
   addEventListener("resize", resizeTunnel);
 
+  // ===== Nhạc nền: trình duyệt chặn tự phát, nên nhạc bắt đầu khi bấm trái tim mở thư =====
+  const bgm = $("bgm"), musicBtn = $("musicBtn");
+  let fadeTimer = 0;
+  function setPlaying(on) {
+    musicBtn.classList.toggle("playing", on);
+    musicBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    musicBtn.setAttribute("aria-label", on ? "Tắt nhạc" : "Bật nhạc");
+  }
+  function playMusic() {
+    clearInterval(fadeTimer);
+    bgm.volume = 0;
+    bgm.play().then(() => {
+      setPlaying(true);
+      // tăng âm lượng từ từ cho êm tai
+      fadeTimer = setInterval(() => {
+        bgm.volume = Math.min(.8, bgm.volume + .05);
+        if (bgm.volume >= .8) clearInterval(fadeTimer);
+      }, 90);
+    }).catch(() => setPlaying(false));
+  }
+  musicBtn.addEventListener("click", () => {
+    if (bgm.paused) playMusic();
+    else { clearInterval(fadeTimer); bgm.pause(); setPlaying(false); }
+  });
+  // chưa có file nhạc thì ẩn nút đi
+  bgm.addEventListener("error", () => { musicBtn.hidden = true; });
+
   // ===== Màn mở đầu: bấm tim → loading → phong bì mở → vào thiệp =====
   const intro = $("intro"), fill = $("fill"), bar = $("bar"), loadPct = $("loadPct"), loadMsg = $("loadMsg");
   const LOAD_MSGS = ["Đang gom những điều dễ thương…", "Đang viết lời chúc thật cẩn thận…", "Chạy như điên mang hoa tới em!", "Thư đến rồi!"];
@@ -1011,6 +1068,7 @@ body.intro-on .wrap { opacity: 0; visibility: hidden; }
   }
 
   $("startBtn").addEventListener("click", () => {
+    playMusic();
     intro.dataset.step = "loading";
     const dur = reduceMotion ? 800 : 3600, t0 = performance.now();
     function step(now) {
